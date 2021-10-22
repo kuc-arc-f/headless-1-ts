@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Layout from '../components/layout'
-//import LibCookie from '../lib/LibCookie'
 //
 export default function Home() {
   return (

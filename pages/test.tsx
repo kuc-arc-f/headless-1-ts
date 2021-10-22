@@ -7,12 +7,6 @@ export default class Test extends Component {
     super(props)
   }
   componentDidMount(){
-    /*
-    const key = process.env.COOKIE_KEY_USER_ID;
-    if(LibCookie.get_cookie(key) === null){
-      location.href = '/login';
-    }
-    */
   }   
   render() {
     return (

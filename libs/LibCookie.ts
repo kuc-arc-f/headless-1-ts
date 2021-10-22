@@ -12,5 +12,28 @@ const LibCookie = {
       throw new Error('error, get_token');
     }
   },
+  get_cookie: function(key:string){
+    try{
+      let ret = null
+      const cookieValue = document.cookie.split('; ')
+      .find(row => row.startsWith(key))
+// console.log(typeof cookieValue)
+      if(typeof cookieValue != 'undefined'){
+        ret = cookieValue.split('=')[1];
+      }
+      return ret
+    } catch (e) {
+      console.log(e);
+      throw new Error('error, get_cookie');
+    }
+  },
+  delete_cookie: function(key:string){
+    try{
+      document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+    } catch (e) {
+      console.log(e);
+      throw new Error('error, get_cookie');
+    }
+  },  
 }
 export default LibCookie;
