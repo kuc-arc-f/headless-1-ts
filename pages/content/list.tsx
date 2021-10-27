@@ -53,12 +53,12 @@ export default class ContentList extends React.Component<IProps, IState> {
     }
   } 
   async componentDidMount(){
-// console.log(this.props.query )
+//console.log(this.props.query )
     let column_id = ""
     const site_id = this.props.query.site_id
     let contents = []
     const page = 1    
-    const display = 0
+    let display = 0
     LibCookie.set_cookie("site_id", this.props.query.site_id )
     const res = await fetch(process.env.BASE_URL +'/api/sites/show?id=' + site_id)
     const json = await res.json()
@@ -66,13 +66,15 @@ export default class ContentList extends React.Component<IProps, IState> {
     const jsonColumn = await resColumn.json()    
     const item = json.item
     const apikey = json.apikey 
-    if( typeof this.props.query.column !='undefined'){
+    if( typeof this.props.query.column !== 'undefined'){
       column_id = this.props.query.column
       const url_content = '/api/content/list_id?site_id='+ site_id + "&id=" + column_id
       const resContent = await fetch(process.env.BASE_URL + url_content )
       const jsonContent = await resContent.json()
       contents = jsonContent.items
       contents = LibCommon.convert_items(contents)    
+      LibPagenate.init()
+      display = LibPagenate.is_paging_display(contents.length);
     }    
 //console.log( json )  
     this.setState({
@@ -96,6 +98,13 @@ export default class ContentList extends React.Component<IProps, IState> {
     // コピーのイベントが発生したときに、クリップボードに書き込むようにしておく
     document.addEventListener("copy" , listener);    
   }   
+  clickColumnMove(id){
+//console.log( "clickColumnMove=", id );
+    const site_id= this.state.site_id;
+    const url_column = `/content/list?site_id=${site_id}&column=${id}`;
+console.log( "url_column=", url_column );
+    location.href= url_column;
+  }
   async handleClickColumn(id){
 //console.log( "handleClickColumn=", id )
       const site_id= this.state.site_id
@@ -191,7 +200,6 @@ console.log("#parentMethod.p=" + page )
     const contents = this.state.contents 
     const items = this.state.columns 
 //console.log( items )
-// console.log("pagingDisplay=" ,this.props.pagingDisplay )
     return (
     <LayoutAdmin >
       <NaviAdmin  site_name={item.name} site_id={item._id} />
@@ -225,13 +233,13 @@ console.log("#parentMethod.p=" + page )
             <h3 className="content_title">Content Name :</h3> 
             <hr className="mt-2 mb-2" />
             {items.map((item, index) => {
-      // console.log(item)
+//console.log(item)
               return(
               <div key={index}>
                 <div className="row">
                   <div className="col-sm-8">
-                    <button className="btn btn-sm btn-outline-primary"
-                    onClick={this.handleClickColumn.bind(this, item._id)}>{item.name}
+                    <button className="btn btn-sm btn-outline-primary content_select_btn"
+                    onClick={this.clickColumnMove.bind(this, item._id)}>{item.name}
                     </button>
                   </div>
                   <div className="col-sm-4">
@@ -263,8 +271,7 @@ console.log("#parentMethod.p=" + page )
             <tbody>
             {contents.map((item, index) => {
     //console.log(item )
-              let values = item.values
-    //console.log( item.values )
+              let values = item.values;
               return(<ContentRow key={index}
                 id={item._id} date={item.created_at}
                 content_url={content_url+ `&id=${item._id}`} 

@@ -59,7 +59,7 @@ export default class ContentEdit extends Component<IProps, IState> {
     this.state = {name: '', content: '', _token : ''}
     this.handleClick = this.handleClick.bind(this);
     this.handleClickDelete = this.handleClickDelete.bind(this);
-//console.log(props.content )
+console.log(props)
   }
   componentDidMount(){
     this.setState({ _token: this.props.csrf.token });
@@ -73,7 +73,8 @@ export default class ContentEdit extends Component<IProps, IState> {
     this.add_item()
   } 
   async handleClickDelete(){
-    console.log( "content_id=", this.props.content_id)
+//console.log( "content_id=", this.props.content_id)
+//console.log(this.props.content.column_id)
     try {
       const content_name = this.props.content_name
       const item = {
@@ -91,8 +92,9 @@ export default class ContentEdit extends Component<IProps, IState> {
       if (res.status === 200) {
         alert("Complete, delete")
         const content_id = this.props.content_id
-        const url  = `/content/list?site_id=${this.props.site_id}&column=${content_id}`
-        Router.push(url);
+        const url  = `/content/list?site_id=${this.props.site_id}&column=${this.props.content.column_id}`
+console.log(url);
+        location.href = url;
       } else {
         throw new Error(await res.text());
       }

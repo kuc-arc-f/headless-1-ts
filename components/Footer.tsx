@@ -13,7 +13,7 @@ export default function footer(){
       color: #FFF;
     }
     .footer_box {
-      margin-top: 20px;
+      margin-top: 280px;
       background-color: #757575;
       color: #fff;
       padding: 140px 40px;
