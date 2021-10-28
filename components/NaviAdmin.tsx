@@ -19,6 +19,11 @@ export default function Page(props){
           </Link>                    
         </li>
         <li className="nav-item active">
+          <Link href="/sites">
+            <a className="nav-link ml-2"><i className="fas fa-home"></i> Site </a>
+          </Link>                    
+        </li>
+        <li className="nav-item active">
           <Link href={`/content_type/${props.site_id}`}>
             <a className="nav-link ml-2"><i className="fas fa-check"></i> ContentType </a>  
           </Link>                    

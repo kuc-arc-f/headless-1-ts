@@ -75,7 +75,7 @@ export default class ContentList extends React.Component<IProps, IState> {
       contents = LibCommon.convert_items(contents)    
       LibPagenate.init()
       display = LibPagenate.is_paging_display(contents.length);
-    }    
+    };
 //console.log( json )  
     this.setState({
       item:item , 
@@ -85,7 +85,12 @@ export default class ContentList extends React.Component<IProps, IState> {
       apikey: apikey,
       pagingDisplay: display,
       page: page,
-    })
+    });
+    const elemKey = document.querySelector<HTMLFormElement>('#search_key');
+//console.log(elemKey);
+    if(elemKey !== null){
+      this.addSearchEvent(elemKey);
+    }    
   }
   init_copy_event(){
     const str = "コピーする文字";
@@ -106,7 +111,6 @@ console.log( "url_column=", url_column );
     location.href= url_column;
   }
   async handleClickColumn(id){
-//console.log( "handleClickColumn=", id )
       const site_id= this.state.site_id
       let url_content = '/api/content/list_id?site_id='+ site_id + "&id=" + id
       url_content += "&page=" + String(this.state.page)
@@ -192,14 +196,18 @@ console.log("#parentMethod.p=" + page )
     }
     const paginateDisp = this.state.pagingDisplay
     let messages_error = ""
-    if( typeof this.props.flash.messages_error != 'undefined'){
+    if( typeof this.props.flash.messages_error !== 'undefined'){
       messages_error = this.props.flash.messages_error
     }    
     const content_url =`/content/edit?site_id=${site_id}&content_name=${item.name}`
     const url_new = `/content/create?content_id=${column_id}&site_id=${site_id}`
     const contents = this.state.contents 
-    const items = this.state.columns 
-//console.log( items )
+    const items = this.state.columns
+    let content_name = "";
+    if( typeof contents[0] !== 'undefined'){
+      content_name = contents[0].name;
+    }    
+//console.log( contents );
     return (
     <LayoutAdmin >
       <NaviAdmin  site_name={item.name} site_id={item._id} />
@@ -230,7 +238,7 @@ console.log("#parentMethod.p=" + page )
         <hr className="mt-2 mb-2" />
         <div className="row">
           <div className="col-sm-4">
-            <h3 className="content_title">Content Name :</h3> 
+            <h3 className="content_title">Contents:</h3> 
             <hr className="mt-2 mb-2" />
             {items.map((item, index) => {
 //console.log(item)
@@ -259,6 +267,7 @@ console.log("#parentMethod.p=" + page )
               <Link href={url_new}>
                 <a className="btn btn-sm btn-primary mt-0">Ceate Content</a>
               </Link>
+              <span className="mx-4">Content: <b>{content_name}</b></span>
                 <input type="text" id="search_key" name="search_key" autoComplete="off" 
                 className="form-control mt-2"placeholder="Search key input , and Return" />
             </div>
