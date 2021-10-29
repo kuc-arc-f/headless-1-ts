@@ -8,6 +8,9 @@ const LibMongo = {
     this.dbName = process.env.MONGODB_DB_NAME
     this.url = process.env.MONGODB_URL
   },
+  getDbName:function(){
+    return this.dbName;
+  },
   get_client:async function(){
     try{
       this.init()

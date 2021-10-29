@@ -76,7 +76,7 @@ export default class ContentList extends React.Component<IProps, IState> {
       LibPagenate.init()
       display = LibPagenate.is_paging_display(contents.length);
     };
-//console.log( json )  
+//console.log( jsonColumn)  
     this.setState({
       item:item , 
       column_id: column_id,

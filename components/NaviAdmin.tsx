@@ -20,7 +20,7 @@ export default function Page(props){
         </li>
         <li className="nav-item active">
           <Link href="/sites">
-            <a className="nav-link ml-2"><i className="fas fa-home"></i> Site </a>
+            <a className="nav-link ml-2"><i className="fas fa-check"></i> Site </a>
           </Link>                    
         </li>
         <li className="nav-item active">
