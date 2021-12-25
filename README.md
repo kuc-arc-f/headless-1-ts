@@ -1,12 +1,12 @@
 # headless-1-ts (Beta)
 
- Version: 0.9.1
+ Version: 0.9.2
 
  Author  : Kouji Nakashima / kuc-arc-f.com
 
  date    : 2021/10/18 
 
- update  : 2021/10/30 
+ update  : 2021/12/25 
 
 ***
 ### Summary
@@ -15,7 +15,7 @@ headless CMS , Next.js + mongodb + Typescript
 
 ***
 ### required
-* Next.js : 11.1.2
+* Next.js : 12
 * mongodb : 3.6.3
 * node : 14.17
 * Typescript
@@ -60,6 +60,14 @@ yarn serve
 ### Get Started / Document
 
 https://cms-kuc-headless1.netlify.app/pages/20210331115325
+
+***
+### blanch
+
+* v0_9_2 : next.js 12  
+
+* v0_9_1 : new 
+
 
 ***
 ### Blog : 
