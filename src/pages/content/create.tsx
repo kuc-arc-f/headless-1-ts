@@ -4,10 +4,10 @@ import flash from 'next-flash';
 import React, {Component} from 'react';
 import cookies from 'next-cookies'
 
-import LayoutAdmin from '../../components/LayoutAdmin'
-import NaviAdmin from '../../components/NaviAdmin'
-import InputRow from '../../components/content/InputRow'
-import Footer from '../../components/Footer'
+import LayoutAdmin from '@/components/LayoutAdmin'
+import NaviAdmin from '@/components/NaviAdmin'
+import InputRow from '@/components/content/InputRow'
+import Footer from '@/components/Footer'
 
 interface IProps {
   user_id: string,

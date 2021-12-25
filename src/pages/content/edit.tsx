@@ -4,11 +4,11 @@ import flash from 'next-flash';
 import React, {Component} from 'react';
 import cookies from 'next-cookies'
 
-import LayoutAdmin from '../../components/LayoutAdmin'
-import NaviAdmin from '../../components/NaviAdmin'
-import EditRow from '../../components/content/EditRow'
-import Footer from '../../components/Footer'
-import LibContent from '../../libs/LibContent'
+import LayoutAdmin from '@/components/LayoutAdmin'
+import NaviAdmin from '@/components/NaviAdmin'
+import EditRow from '@/components/content/EditRow'
+import Footer from '@/components/Footer'
+import LibContent from '@/libs/LibContent'
 //
 interface IState {
   name: string,

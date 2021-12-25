@@ -2,7 +2,7 @@ import React from 'react'
 //import cookies from 'next-cookies'
 //import flash from 'next-flash';
 import Head from 'next/head'
-import Layout from '../components/layout'
+import Layout from '@/components/layout'
 
 export default function Home() {
   return (

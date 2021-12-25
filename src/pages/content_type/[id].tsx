@@ -2,10 +2,10 @@ import Head from 'next/head'
 import React from 'react'
 import Link from 'next/link';
 
-import LayoutAdmin from '../../components/LayoutAdmin'
-import NaviColumns from '../../components/NaviColumns'
-import LibCommon from '../../libs/LibCommon'
-import Footer from '../../components/Footer'
+import LayoutAdmin from '@/components/LayoutAdmin'
+import NaviColumns from '@/components/NaviColumns'
+import LibCommon from '@/libs/LibCommon'
+import Footer from '@/components/Footer'
 import ContentRow from './ContentRow'
 //
 function Page(data) {

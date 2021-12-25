@@ -4,9 +4,9 @@ import Router from 'next/router'
 import cookies from 'next-cookies'
 import flash from 'next-flash';
 
-import LibCommon from '../../libs/LibCommon'
-import Layout from '../../components/layout'
-import FlashBox from '../../components/FlashBox'
+import LibCommon from '@/libs/LibCommon'
+import Layout from '@/components/layout'
+import FlashBox from '@/components/FlashBox'
 import IndexRow from './IndexRow';
 
 interface IProps {

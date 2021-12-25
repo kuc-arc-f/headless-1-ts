@@ -3,14 +3,14 @@ import React from 'react'
 import Link from 'next/link';
 import flash from 'next-flash';
 
-import LibCookie from '../../libs/LibCookie'
-import LibPagenate from '../../libs/LibPagenate'
-import LibCommon from '../../libs/LibCommon'
-import LayoutAdmin from '../../components/LayoutAdmin'
-import NaviAdmin from '../../components/NaviAdmin'
-import Footer from '../../components/Footer'
-import PagingBox from '../../components/PagingBox'
-import FlashBox from '../../components/FlashBox'
+import LibCookie from '@/libs/LibCookie'
+import LibPagenate from '@/libs/LibPagenate'
+import LibCommon from '@/libs/LibCommon'
+import LayoutAdmin from '@/components/LayoutAdmin'
+import NaviAdmin from '@/components/NaviAdmin'
+import Footer from '@/components/Footer'
+import PagingBox from '@/components/PagingBox'
+import FlashBox from '@/components/FlashBox'
 
 //import ColumnRow from './ColumnRow'
 import ContentRow from './ContentRow'

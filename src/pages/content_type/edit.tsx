@@ -4,71 +4,76 @@ import flash from 'next-flash';
 import React, {Component} from 'react';
 import cookies from 'next-cookies'
 
-import LayoutAdmin from '../../components/LayoutAdmin'
-import NaviColumns from '../../components/NaviColumns'
-import Footer from '../../components/Footer'
+import LayoutAdmin from '@/components/LayoutAdmin'
+import NaviColumns from '@/components/NaviColumns'
+import Footer from '@/components/Footer'
 
-import LibContentType from '../../libs/LibContentType'
-import InputRow from './InputRow'
+//import LibContentType from '../../libs/LibContentType'
+import EditRow from './EditRow'
 
 interface IState {
   name: string,
   content: string,
   _token: string,
+  columns: any,
   form_item_arr: any,
+  content_name: string,
 }
 interface IProps {
   user_id: string,
   csrf: any,
   site_id: string,
-  colmuns: any,
+  columns: any,
+  colmun_item: any,
+  column_id: string,
 }
 //
-export default class Create extends Component<IProps, IState> {
+export default class Edit extends Component<IProps, IState> {
   static async getInitialProps(ctx) {
-//console.log(ctx.query.site_id )
-    const site_id = ctx.query.site_id
+console.log("q=", ctx.query)
+    const column_id = ctx.query.content_type_id
     const url = process.env.BASE_URL + '/api/token_get'
     const res = await fetch(url)
     const json = await res.json()
-    const resColumn = await fetch(process.env.BASE_URL +'/api/columns/list?site_id='+ site_id)
-    const jsonColumn = await resColumn.json()        
-//console.log(jsonColumn.items)
+    const resColmun = await fetch(process.env.BASE_URL +'/api/columns/show?id=' + column_id)
+    const jsonColmun = await resColmun.json() 
+    const columns = JSON.parse(jsonColmun.item.values || '[]') 
+//console.log( columns )
     return { 
       user_id :cookies(ctx).user_id,
+      column_id: column_id,
       csrf: json.csrf,
-      site_id: ctx.query.site_id,
-      colmuns: jsonColumn.items,
+      site_id :cookies(ctx).site_id,
+      columns: columns,
+      colmun_item: jsonColmun.item,
     }
   }  
   constructor(props){
     super(props)
-    this.state = {name: '', content: '', _token : '', form_item_arr:null}
+    this.state = {
+      name: '', content: '', _token : '', form_item_arr:null,
+      content_name: '', columns: ''
+    }
     this.handleClick = this.handleClick.bind(this);
-// console.log(props)
+//console.log(props)
   }
   componentDidMount(){
-//console.log(this.props.colmuns)
+//console.log( this.props.columns )
     const arr = []
     for(let i= 0;i < 10; i++){
       let item = {  index : i }
       arr.push(item)
     }
     this.setState({ _token: this.props.csrf.token,
-      form_item_arr: arr 
+      form_item_arr: arr, content_name: this.props.colmun_item.name, 
+      columns: this.props.columns
     });
     console.log( "user_id=" ,this.props.user_id )
     if(typeof this.props.user_id === 'undefined'){
       flash.set({ messages_error: 'Error, Login require' })
       Router.push('/login');
     }
-  }   
-  handleChangeTitle(e){
-    this.setState({name: e.target.value})
   }
-  handleChangeContent(e){
-    this.setState({content: e.target.value})
-  }   
   handleClick(){
     this.add_item()
   } 
@@ -76,13 +81,9 @@ export default class Create extends Component<IProps, IState> {
     try {
       const myForm = document.querySelector<HTMLFormElement>('#myForm');
       const formData = new FormData(myForm); 
-      let valid = LibContentType.valid_form(formData)
-      if(valid === false){ throw new Error('Invalid , valid_form'); }
-        valid = LibContentType.validContentName(
-          this.props.colmuns, formData.get( "content_name" )
-        )
-//  console.log(valid)
-      if(valid==false){ throw new Error('Invalid , valid_form'); }
+      //var valid = LibContentType.valid_form(formData)
+//      if(valid==false){ throw new Error('Invalid , valid_form'); }
+//console.log(valid)
       const elem = []
       for(let i= 0; i< 10; i++){
         let inputName = "colmun["+i+"]name"
@@ -96,7 +97,7 @@ export default class Create extends Component<IProps, IState> {
         elem.push(item)
 //console.log(name, i)
       }
-      const json= JSON.stringify( elem );
+      const json = JSON.stringify( elem );
 //console.log(json)
       const elemJson = document.querySelector<HTMLInputElement>('#colmuns_json');
       elemJson.value = json
@@ -108,10 +109,11 @@ export default class Create extends Component<IProps, IState> {
     }    
   } 
   tabRow(){
-    if(this.state.form_item_arr instanceof Array){
-      return this.state.form_item_arr.map((item, index) => {
-// console.log(item.index)
-        return (<InputRow key={index} index={item.index} 
+    if(this.state.columns instanceof Array){
+      return this.state.columns.map((item, index) => {
+//console.log(item )
+        return (<EditRow key={index} index={index} 
+          name={ item.name} type={item.type}
                 />
         )        
       })
@@ -121,40 +123,34 @@ export default class Create extends Component<IProps, IState> {
 //console.log(this.props.site_id)
     return (
     <LayoutAdmin>
-      <NaviColumns  site_name={""} site_id={this.props.site_id} /> 
+      <NaviColumns  site_name={""} site_id={this.props.site_id} />
       <div className="container">
         <Link href={`/content_type/${this.props.site_id}`}>
           <a className="btn btn-outline-primary mt-2">Back</a></Link>
         <hr className="mt-2 mb-2" />
         <div className="row">
           <div className="col-sm-6">
-          <h3>Content - Create</h3>
+            <h3>Content - Edit</h3>
           </div>
           <div className="col-sm-6">
             <button className="btn btn-primary" onClick={this.handleClick}>Save
             </button>
           </div>
         </div>
-        <hr className="mt-2 mb-2" />
-        <form action="/api/columns/new" method="post" id="myForm" name="myForm">
-          <input type="hidden" id="colmuns_json" name="colmuns_json" />
-          <input type="hidden" id="site_id" name="site_id" value={this.props.site_id}/>          
-          <div className="row">
-            <div className="col-md-6 form-group">
-              <label>Content Name:</label>
-              <input type="text" name="content_name"
-              className="form-control"
-                />
-              <span className="mt-0"><br />*) 半角英数、アンダースコア( _ )が入力可能です。</span>
-            </div>
+        <div className="row">
+          <div className="col-md-6 form-group mb-0">
+            <label>Content Name : {this.state.content_name}</label>
           </div>
-          <hr className="mt-0 mb-0" />
+        </div>
+        <hr className="mt-2 mb-2" />
+        <form action="/api/columns/update" method="post" id="myForm" name="myForm">
+        <input type="hidden" id="colmuns_json" name="colmuns_json" />
+        <input type="hidden" id="site_id" name="site_id" value={this.props.site_id}/>  
+        <input type="hidden" id="id" name="id" value={this.props.column_id}/>  
           <h3>Column Setting :</h3>
           <hr />
           {this.tabRow()}
         </form>
-        <div className="form-group">
-        </div>                
       </div>
       <Footer />
     </LayoutAdmin>
